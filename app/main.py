@@ -24,8 +24,6 @@ async def get_weather(city: str):
         
         return weather_data
     except ValueError as e:
-        # City not found or API error
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        # Unexpected server error
         raise HTTPException(status_code=500, detail="Internal server error")

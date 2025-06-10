@@ -9,8 +9,11 @@ async def get_weather_data(city: str) -> dict:
         url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={settings.OPENWEATHERMAP_API_KEY}&units=metric"
         
         async with session.get(url) as response:
+            if response.status == 404:
+                raise ValueError("API request failed: City not found. Try a different name or check spelling.")
+
             if response.status != 200:
-                raise ValueError(f"API request failed: {response.status} {await response.text()}")
+                raise ValueError("API request failed. Please try again later.")
             
             data = await response.json()
 
