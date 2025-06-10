@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from app.models.weather import WeatherResponse
 from app.services.weather_api import get_weather_data
+from app.services.storage import store_weather_data
 
 app = FastAPI()
 
@@ -14,7 +15,7 @@ async def get_weather(city: str):
         weather_data = await get_weather_data(city)
         
         # Store data locally or in S3/DynamoDB based on config
-        pass
+        path = await store_weather_data(weather_data)
         
         return weather_data
     except ValueError as e:
