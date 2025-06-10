@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from app.models.weather import WeatherResponse
+from app.services.weather_api import get_weather_data
 
 app = FastAPI()
 
@@ -10,12 +11,12 @@ async def get_weather(city: str):
         pass
 
         # Fetch new data if no valid cache
-        pass
+        weather_data = await get_weather_data(city)
         
         # Store data locally or in S3/DynamoDB based on config
         pass
         
-        return None
+        return weather_data
     except ValueError as e:
         # City not found or API error
         raise HTTPException(status_code=400, detail=str(e))
