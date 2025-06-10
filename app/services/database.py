@@ -1,3 +1,4 @@
+import os
 import aiobotocore.session
 import aiohttp
 import aiosqlite
@@ -9,7 +10,8 @@ async def log_weather_request(city: str, timestamp: str, s3_path: str):
     use_local = settings.USE_LOCAL_STORAGE == "1"
     if use_local:
         try:
-            async with aiosqlite.connect("weather_logs.db") as conn:
+            os.makedirs("logs", exist_ok=True)
+            async with aiosqlite.connect("logs/weather_logs.db") as conn:
                 cursor = await conn.cursor()
                 await cursor.execute(
                     "CREATE TABLE IF NOT EXISTS logs (city TEXT, timestamp TEXT, s3_path TEXT)"

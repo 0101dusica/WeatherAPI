@@ -6,7 +6,7 @@ WeatherAPI is a FastAPI application that fetches current weather data for a spec
 
 - **Functionality**: Retrieves weather data (temperature, weather description, timestamp) via the `/weather` endpoint.
 - **Caching**: Stores data in local JSON files (`weather_data/`) if `USE_LOCAL_STORAGE=1`, or in AWS S3 if `USE_LOCAL_STORAGE=0`.
-- **Logging**: Logs requests to a local SQLite database (`weather_logs.db`) if `USE_LOCAL_STORAGE=1`, or to AWS DynamoDB if `USE_LOCAL_STORAGE=0`.
+- **Logging**: Logs requests to a local SQLite database (`logs/weather_logs.db`) if `USE_LOCAL_STORAGE=1`, or to AWS DynamoDB if `USE_LOCAL_STORAGE=0`.
 - **Tech Stack**: Python 3.11, FastAPI, Uvicorn, OpenWeatherMap API, AWS S3/DynamoDB, SQLite, Docker.
 - **Features**: Asynchronous request handling, Docker support for consistent deployment.
 
@@ -96,7 +96,7 @@ WeatherAPI is a FastAPI application that fetches current weather data for a spec
   - `services/`: Handles caching, logging, and weather data retrieval.
   - `utils/config.py`: Loads environment variables.
 - `weather_data/`: Stores cached JSON files (when `USE_LOCAL_STORAGE=1`).
-- `weather_logs.db`: SQLite database for request logs (when `USE_LOCAL_STORAGE=1`).
+- `logs/weather_logs.db`: SQLite database for request logs (when `USE_LOCAL_STORAGE=1`).
 - `requirements.txt`: Python dependencies.
 - `Dockerfile`: Defines the Docker image.
 - `docker-compose.yml`: Configures the Docker container.

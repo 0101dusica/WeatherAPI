@@ -10,5 +10,5 @@ services:
       - .env
     volumes:
       - ./weather_data:/app/weather_data
-      - ./weather_logs.db:/app/weather_logs.db
+      - ./logs:/app/logs
     restart: unless-stopped
