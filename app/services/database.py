@@ -28,7 +28,7 @@ async def log_weather_request(city: str, timestamp: str, s3_path: str):
     # Log data in DynamoDB if not using local storage
     try:
         session = aiobotocore.session.get_session()
-        async with session.create_client("dynamodb", region_name = settings.AWS_REGION, timeout=aiohttp.ClientTimeout(total=10)) as dynamodb_client:
+        async with session.create_client("dynamodb", region_name = settings.AWS_REGION) as dynamodb_client:
             item = {
                 "city": {"S": city},     
                 "timestamp": {"S": timestamp}, 

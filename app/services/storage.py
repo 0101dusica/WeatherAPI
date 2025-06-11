@@ -20,15 +20,22 @@ async def store_weather_data(weather_data: dict) -> str:
         return f"weather_data/{filename}"  # Returning local path
     
     # Upload data to S3
-    session = aiobotocore.session.get_session()
-    async with session.create_client("s3", region_name=settings.AWS_REGION, timeout=aiohttp.ClientTimeout(total=10)) as s3_client:
+    try:
+        session = aiobotocore.session.get_session()
         try:
-            await s3_client.put_object(
-                Bucket=settings.S3_BUCKET,
-                Key=filename,
-                Body=json.dumps(weather_data)
-            )
-            return f"s3://{settings.S3_BUCKET}/{filename}"  # Returning S3 URL
+            async with session.create_client(
+                "s3",
+                region_name=settings.AWS_REGION
+            ) as s3_client:
+                await s3_client.put_object(
+                    Bucket=settings.S3_BUCKET,
+                    Key=filename,
+                    Body=json.dumps(weather_data)
+                )
+                return f"s3://{settings.S3_BUCKET}/{filename}"
         except Exception as e:
-            print(f"Error uploading to S3: {str(e)}")
-            return f"weather_data/{filename}"
+            print(f"Error during S3 client usage or upload: {str(e)}")
+    except Exception as e:
+        print(f"Error during S3 client creation: {str(e)}")
+
+    return f"weather_data/{filename}"
